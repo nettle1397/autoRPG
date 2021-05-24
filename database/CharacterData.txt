@@ -1,0 +1,7 @@
+#初始化
+#角色能力值
+{
+    "char01":1, "name01":"noname", "stre01":6, "agi01":6, "inte01":6,
+    "char02":2, "name02":"noname", "stre02":6, "agi02":6, "inte02":6,
+    "char03":3, "name03":"noname", "stre03":6, "agi03":6, "inte03":6
+}
