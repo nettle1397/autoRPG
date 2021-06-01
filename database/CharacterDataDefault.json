@@ -1,0 +1,9 @@
+{
+    "name1":"noname", "con1":10, "stre1":6, "agi1":6, "inte1":6,
+    "name2":"noname", "con2":10, "stre2":6, "agi2":6, "inte2":6,
+    "name3":"noname", "con3":10, "stre3":6, "agi3":6, "inte3":6,
+
+    "HP1":0, "att1":0, "attR1":0, "spp1":0, "Bspp1":0, "sppR1":0, "Fhit1":0, "AhitR1":0, "IhitR1":0,"dodgeDO1":0, "dodgeDOR1":0,
+    "HP2":0, "att2":0, "attR2":0, "spp2":0, "Bspp2":0, "sppR2":0, "Fhit2":0, "AhitR2":0, "IhitR2":0,"dodgeDO2":0, "dodgeDOR2":0,
+    "HP3":0, "att3":0, "attR3":0, "spp3":0, "Bspp3":0, "sppR3":0, "Fhit3":0, "AhitR3":0, "IhitR3":0,"dodgeDO3":0, "dodgeDOR3":0
+}
