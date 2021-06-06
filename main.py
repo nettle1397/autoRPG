@@ -4,8 +4,8 @@ sys.path.append("database")
 sys.path.append("menu")
 sys.path.append("Battle")
 
-import Battle.Battle as Battle
-Battle.BattleStart()
+#import Battle.Battle as Battle
+#Battle.BattleStart()
 
 #遊戲開始畫面
 print("!!自走冒險!!")
@@ -28,7 +28,10 @@ while game == True:
 
     #將能力值轉換成戰鬥值並儲存
     import database.Control as Cont
-    Cont.ChangeChardata()
+    sn = 0
+    while sn < 3:
+        sn += 1
+        Cont.ChangeChardata(sn)
     
     import Battle.Battle as Battle
     Battle.BattleStart()

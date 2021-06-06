@@ -1,5 +1,0 @@
-{
-    "name1":"哥布林戰士", "HP1":10, "att1":3, "spp1":2, "Bspp1":2, "hit1":1, "dodgeDO1":1,
-    "name2":"哥布林弓箭手", "HP2":6, "att2":2, "spp2":3, "Bspp2":3, "hit2":2, "dodgeDO2":2,
-    "name3":"哥布林巫師", "HP3":4, "att3":4, "spp3":1, "Bspp3":1, "hit3":1, "dodgeDO3":1
-}

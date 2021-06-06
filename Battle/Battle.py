@@ -24,7 +24,8 @@ def MoveDice(V, RV, BV):#取得速度(行動)的隨機值
         MS += D24(8) 
     
     MS += BV
-    MS = 100/MS
+    if MS > 0:
+        MS = 100/MS
     MS = round(MS, 0)
     MS = int(MS)
 
@@ -32,13 +33,12 @@ def MoveDice(V, RV, BV):#取得速度(行動)的隨機值
 
 def Target():#隨機選擇對手
             import random
-            target = random.randint(1, 3)
+            target = random.randint(0, 2)
             return target
 
 def Time(time, Move):#計時器
             while time != Move:
                 time += 1
-            print("Move",Move)
             return time
 
 #戰鬥開始，代入敵我雙方戰鬥值。
@@ -46,23 +46,44 @@ def BattleStart():
     #前置作業，讀取雙方戰鬥值
     import json
     with open('database\CharacterData.json', mode = 'r', encoding = 'utf-8') as charT:
-        Hero = json.load(charT) #讀取我方英雄資料，寫入Hero
+        char = json.load(charT) #讀取所有單位資料資料，寫入char
     
-    with open('database\MonsterData.json', mode = 'r', encoding = 'utf-8') as MonsT:
-        Enemy = json.load(MonsT) #讀取敵方怪物資料，寫入Enemy
-
     #前置作業，速度值處理
     #將速度值整理成行動列表(Dict格式)，準備載入序列。
     MoveSeq = {}
     MoveSeqB = {}
     MoveSeqR = {}
-    for sn in range(1, 4):
-        sn = str(sn)
-        MoveSeq["Hspp" + sn] = Hero["spp" + sn]
-        MoveSeqB["BHspp" + sn] = Hero["Bspp" + sn]
-        MoveSeqR["HsppR" + sn] = Hero["sppR" + sn]
-        MoveSeq["Espp" + sn] = Enemy["spp" + sn]
-        MoveSeqB["BEspp" + sn] = Enemy["Bspp" + sn]
+    for unit in ["Unit1", "Unit2", "Unit3"]:
+        if unit == "Unit1":
+            sn = 1
+        elif unit == "Unit2":
+            sn = 2
+        elif unit == "Unit3":
+            sn = 3
+        
+        MoveSeq["Hspp" + str(sn)] = char["Hero"][sn - 1][unit][1]["CombatVal"][3]["spp"]
+        MoveSeqB["BHspp" + str(sn)] = char["Hero"][sn - 1][unit][1]["CombatVal"][4]["Bspp"]
+        MoveSeqR["HsppR" + str(sn)] = char["Hero"][sn - 1][unit][1]["CombatVal"][5]["sppR"]
+    Eunit = {}
+    Eunit1 = {}
+    Eunit2 = {}
+    Eunit3 = {}
+    Eunit4 = {}
+    Eunit5 = {}
+    Eunit1["Eunit1"] = char["Enemy"][0]["Unit1"]
+    Eunit2["Eunit2"] = char["Enemy"][1]["Unit2"]
+    Eunit3["Eunit3"] = char["Enemy"][2]["Unit3"]
+    #Eunit4["Eunit4"] = char["Enemy"][3]["Unit4"]
+    #Eunit5["Eunit5"] = char["Enemy"][4]["Unit5"]
+    Eunit["Eunit"] = [Eunit1, Eunit2, Eunit3]#, Eunit4, Eunit5
+    sn = 0
+    for unit in [Eunit1, Eunit2, Eunit3, Eunit4, Eunit5]:
+        if unit == Eunit4 or unit == Eunit5:
+            break
+        sn += 1
+        for unitK in list(unit.keys()):
+            MoveSeq["Espp" + str(sn)] = unit[unitK][4]["spp"]
+            MoveSeqB["BEspp" + str(sn)] = unit[unitK][5]["Bspp"]
 
     #print(MoveSeqR)#測試
     #把基本速度值(Bspp)、速度值(spp)和low速度值(sppR)相加，得到最終速度值。
@@ -70,26 +91,25 @@ def BattleStart():
     MoveSeqF2 = {}
     for HorE in ["Hspp", "Espp"]:
         for sn in range(1, 4):
-            sn = str(sn)
             if HorE == "Hspp":
-                MSBK = "BHspp" + sn
-                MSK = "Hspp" + sn
-                MSRK = "HsppR" + sn
+                MSBK = "BHspp" + str(sn)
+                MSK = "Hspp" + str(sn)
+                MSRK = "HsppR" + str(sn)
                 MSBV = MoveSeqB[MSBK]
                 MSV = MoveSeq[MSK]
                 MSRV = MoveSeqR[MSRK]
             elif HorE == "Espp":
-                MSBK = "BEspp" + sn
-                MSK = "Espp" + sn
+                MSBK = "BEspp" + str(sn)
+                MSK = "Espp" + str(sn)
                 MSBV = MoveSeqB[MSBK]
                 MSV = MoveSeq[MSK]
                 MSRV = 0
 
             #速度值擲骰與加總
             MS = MoveDice(MSV, MSRV, MSBV)               
-            MoveSeqF[HorE + sn] = MS
-            MoveSeqF2["B" + HorE + sn] = MSBV
-            MoveSeqF2[HorE + "R" + sn] = MSRV
+            MoveSeqF[HorE + str(sn)] = MS
+            MoveSeqF2["B" + HorE + str(sn)] = MSBV
+            MoveSeqF2[HorE + "R" + str(sn)] = MSRV
     
     #戰鬥開始
     time = 0
@@ -98,8 +118,7 @@ def BattleStart():
         #決定下一個行動單位
         #獲取現在行動單位的數據
         #將行動列表載入序列(元素是Tuple的List格式)
-        MoveSeqTuple = sorted(MoveSeqF.items(), key = lambda item:item[1])
-
+        MoveSeqTuple = sorted(list(MoveSeqF.items()), key = lambda item:item[1])
         MSmin = MoveSeqTuple[0]
         Move = MSmin[1]
         MSminK = MSmin[0]
@@ -109,26 +128,28 @@ def BattleStart():
         #依照最先行動的鍵值來代入戰鬥單位的數據
         CombatUnitVal = {}
         if "H" == MSminK[0]:
-            CombatUnitVal["seq"] = "H" + MSminK[4]
-            CombatUnitVal["name"] = Hero["name" + MSminK[4]] 
-            CombatUnitVal["HP"] = Hero["HP" + MSminK[4]] 
-            CombatUnitVal["att"] = Hero["att" + MSminK[4]]
-            CombatUnitVal["attR"] = Hero["attR" + MSminK[4]] 
-            CombatUnitVal["hit"] = Hero["Fhit" + MSminK[4]] 
-            CombatUnitVal["AhitR"] = Hero["AhitR" + MSminK[4]] 
-            CombatUnitVal["IhitR"] = Hero["IhitR" + MSminK[4]] 
-            CombatUnitVal["dodgeDO"] = Hero["dodgeDO" + MSminK[4]]
-            CombatUnitVal["dodgeDOR"] = Hero["dodgeDOR" + MSminK[4]]
+            sn = int(MSminK[4])
+            CombatUnitVal["seq"] = "CombatHero" + str(sn)
+            CombatUnitVal["name"] = char["Hero"][sn - 1]["Unit" + str(sn)][0]["Ability"][0]["name"] 
+            CombatUnitVal["HP"] = char["Hero"][sn - 1]["Unit" + str(sn)][1]["CombatVal"][0]["HP"]
+            CombatUnitVal["att"] = char["Hero"][sn - 1]["Unit" + str(sn)][1]["CombatVal"][1]["att"]
+            CombatUnitVal["attR"] = char["Hero"][sn - 1]["Unit" + str(sn)][1]["CombatVal"][2]["attR"]
+            CombatUnitVal["hit"] = char["Hero"][sn - 1]["Unit" + str(sn)][1]["CombatVal"][6]["Fhit"]
+            CombatUnitVal["AhitR"] = char["Hero"][sn - 1]["Unit" + str(sn)][1]["CombatVal"][7]["AhitR"]
+            CombatUnitVal["IhitR"] = char["Hero"][sn - 1]["Unit" + str(sn)][1]["CombatVal"][8]["IhitR"]
+            CombatUnitVal["dodgeDO"] = char["Hero"][sn - 1]["Unit" + str(sn)][1]["CombatVal"][9]["dodgeDO"]
+            CombatUnitVal["dodgeDOR"] = char["Hero"][sn - 1]["Unit" + str(sn)][1]["CombatVal"][10]["dodgeDOR"]
             #計算我方現在行動單位的下次行動值
             MS = MoveDice(MSmin[1], MoveSeqF2["HsppR" + MSminK[4]], MoveSeqF2["BHspp" + MSminK[4]]) 
 
         elif "E" == MSminK[0]:
-            CombatUnitVal["seq"] = "E" + MSminK[4]
-            CombatUnitVal["name"] = Enemy["name" + MSminK[4]] 
-            CombatUnitVal["HP"] = Enemy["HP" + MSminK[4]] 
-            CombatUnitVal["att"] = Enemy["att" + MSminK[4]] 
-            CombatUnitVal["hit"] = Enemy["hit" + MSminK[4]] 
-            CombatUnitVal["dodgeDO"] = Enemy["dodgeDO" + MSminK[4]] 
+            sn = int(MSminK[4])
+            CombatUnitVal["seq"] = "CombatEnemy" + str(sn)
+            CombatUnitVal["name"] = Eunit["Eunit"][sn - 1]["Eunit" + str(sn)][0]["name"]
+            CombatUnitVal["HP"] = Eunit["Eunit"][sn - 1]["Eunit" + str(sn)][2]["HP"] 
+            CombatUnitVal["att"] = Eunit["Eunit"][sn - 1]["Eunit" + str(sn)][3]["att"] 
+            CombatUnitVal["hit"] = Eunit["Eunit"][sn - 1]["Eunit" + str(sn)][6]["hit"] 
+            CombatUnitVal["dodgeDO"] = Eunit["Eunit"][sn - 1]["Eunit" + str(sn)][7]["dodgeDO"] 
             #計算敵人現在行動單位的下次行動值
             MS = MoveDice(MSmin[1], MoveSeqF2["EsppR" + MSminK[4]], MoveSeqF2["BEspp" + MSminK[4]])
         #將下次行動值與現在行動值相加後放入排序
@@ -137,21 +158,20 @@ def BattleStart():
 
         #開始互動
         sn = Target()#隨機選擇對手
-        sn = str(sn)
         DDO = 0
         if "H" == MSminK[0]:
-            HP = Enemy["HP" + sn]
-            dodgeDO = Enemy["dodgeDO" + sn]
+            HP = Eunit["Eunit"][sn]["Eunit" + str(sn + 1)][2]["HP"]
+            dodgeDO = Eunit["Eunit"][sn]["Eunit" + str(sn + 1)][7]["dodgeDO"]
             for n in range(dodgeDO):
                 DDO += D24(12)
             attR = D24(CombatUnitVal["attR"])
             hitR = D24(CombatUnitVal["AhitR"]) + D24(CombatUnitVal["IhitR"])
         elif "E" == MSminK[0]:
-            HP = Hero["HP" + sn]
-            dodgeDO = Hero["dodgeDO" + sn]
+            HP = CombatUnitVal["HP"] = char["Hero"][sn]["Unit" + str(sn + 1)][1]["CombatVal"][0]["HP"]
+            dodgeDO = char["Hero"][sn]["Unit" + str(sn + 1)][1]["CombatVal"][9]["dodgeDO"]
             for n in range(dodgeDO):
                 DDO += D24(12)
-            dodgeDOR = Hero["dodgeDOR" + sn]
+            dodgeDOR = char["Hero"][sn]["Unit" + str(sn + 1)][1]["CombatVal"][10]["dodgeDOR"]
             DDO += D24(dodgeDOR)
             attR = 0
             hitR = 0
@@ -163,17 +183,19 @@ def BattleStart():
         HP -= CombatUnitVal["att"] + attR - FDO
 
         if "H" == MSminK[0]:
-            Enemy["HP" + sn] = HP
-            if 0 >= Enemy["HP1"]:
-                if 0 >= Enemy["HP2"]:
-                    if 0 >= Enemy["HP3"]:
+            Eunit["Eunit"][sn]["Eunit" + str(sn + 1)][2]["HP"] = HP #把本回合攻擊目標剩餘血量寫回去
+            #回合結束前判斷敵人是否全死亡
+            if 0 >= Eunit["Eunit"][0]["Eunit1"][2]["HP"]:
+                if 0 >= Eunit["Eunit"][1]["Eunit2"][2]["HP"]:
+                    if 0 >= Eunit["Eunit"][2]["Eunit3"][2]["HP"]:
                         BattleOver = True
                         print("Hero win!")
         elif "E" == MSminK[0]:
-            Hero["HP" + sn] = HP
-            if 0 >= Hero["HP1"]:
-                if 0 >= Hero["HP2"]:
-                    if 0 >= Hero["HP3"]:
+            char["Hero"][sn]["Unit" + str(sn + 1)][1]["CombatVal"][0]["HP"] = HP #把本回合攻擊目標剩餘血量寫回去
+            #回合結束前判斷英雄們是否全死亡
+            if 0 >= char["Hero"][0]["Unit1"][1]["CombatVal"][0]["HP"]:
+                if 0 >= char["Hero"][1]["Unit2"][1]["CombatVal"][0]["HP"]:
+                    if 0 >= char["Hero"][2]["Unit3"][1]["CombatVal"][0]["HP"]:
                         BattleOver = True
                         print("Enemy win!")
     return
