@@ -181,7 +181,7 @@ def BattleStart():
         if FDO <= 0:#消除減傷的負數
             FDO = 0
         HP -= CombatUnitVal["att"] + attR - FDO
-
+        #顯示每回合戰鬥的狀況
         if "H" == MSminK[0]:
             Eunit["Eunit"][sn]["Eunit" + str(sn + 1)][2]["HP"] = HP #把本回合攻擊目標剩餘血量寫回去
             #回合結束前判斷敵人是否全死亡
