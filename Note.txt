@@ -1,0 +1,126 @@
+#QT designer的ui檔，轉成PySide2的py檔
+>pyside2-uic -o ****.ui ****.py
+****為檔名
+
+#清空控件的方式_(Tkinker)
+def 函數():#執行後會逐一刪除root視窗的控件
+    for widget in root.winfo_children():#逐一將控件代入widget變數
+        widget.destroy()#刪除指定控件
+
+#清空控件的方式_(Pyside2)
+def clearLayout(layout):#代入中心視窗的佈局
+    if layout != None:
+        while layout.count():
+            child = layout.takeAt(0)#代入第一個控件
+            if child.widget() is not None:#控件未刪完，刪除控件。
+                child.widget().deleteLater()
+            elif child.layout() is not None:#控件未刪除乾淨的話，繼續代入控件。
+                clearLayout(child.layout())
+
+#關閉視窗的方式_(Pyside2)
+qapp= QApplication.instance()#代入含有關閉視窗的工具包
+qapp.quit()#關閉視窗
+
+#解決MAC中視窗無法開啟的bug_(Pyside2)
+import os
+os.environ['QT_MAC_WANTS_LAYER'] = '1'
+#同上，在macos系统变量中（如.zprofile文件中）添加命令。
+export QT_MAC_WANTS_LAYER=1
+#加入指令的方法
+sudo vi ~/.zprofile #開啟環境變數文件(或者開啟~/.zshrc)
+export QT_MAC_WANTS_LAYER=1 #貼上命令
+:wq #紀錄指令，按下":"就能輸入
+source ~/.zprofile #重新整理，整理後生效(~/.zshrc)
+
+#解決MAC無法讀取ui檔的bug_(Pyside2)
+if __name__== "__main__":
+    QtCore.QCoreApplication.setAttribute(QtCore.Qt.AA_ShareOpenGLContexts)
+
+#讓主視窗綁定中心視窗_(Pyside2)
+Form.setCentralWidget(self.widget)
+#同上，寫在邏輯檔中的初始化UI之後_(Pyside2)
+self.setCentralWidget(self.widget)
+'''
+if __name__== "__main__":
+__name__ 是当前模块名，当模块被直接运行时模块名为 __main__ 。
+这句话的意思就是，当模块被直接运行时，以下代码块将被运行，当模块是被导入时，代码块不被运行。
+可以用來讓模組被拿來用import代入時，以下的指令不被執行。
+'''
+
+export PATH=/opt/homebrew/bin:$PATH
+==> This script will install:
+/opt/homebrew/bin/brew
+/opt/homebrew/share/doc/homebrew
+/opt/homebrew/share/man/man1/brew.1
+/opt/homebrew/share/zsh/site-functions/_brew
+/opt/homebrew/etc/bash_completion.d/brew
+/opt/homebrew
+==> The following new directories will be created:
+/opt/homebrew/bin
+/opt/homebrew/include
+/opt/homebrew/lib
+/opt/homebrew/sbin
+/opt/homebrew/opt
+/opt/homebrew/var/homebrew/linked
+/opt/homebrew/Cellar
+/opt/homebrew/Caskroom
+/opt/homebrew/Frameworks
+
+
+
+#圖片重疊的方法
+# -*- coding: utf-8 -*-
+from PySide2 import QtCore, QtGui, QtWidgets
+import sys
+sys.path.append("GUI")
+
+class CombineImage(QtWidgets.QLabel):
+    def __init__(self, srcImagePath=None, dstImagePath=None, parent=None):
+        super(CombineImage, self).__init__(parent)
+        
+        srcImage = QtGui.QImage(srcImagePath)
+        dstImage = QtGui.QImage(dstImagePath)
+        resultImage = QtGui.QImage(
+                        srcImage.width(),
+                        srcImage.height(),
+                        QtGui.QImage.Format_ARGB32_Premultiplied
+                        )
+        painter = QtGui.QPainter(resultImage)
+        painter.fillRect(resultImage.rect(), QtCore.Qt.transparent)
+        painter.setCompositionMode(QtGui.QPainter.CompositionMode_SourceOver)
+        painter.drawImage(0, 0, srcImage)
+        painter.setCompositionMode(QtGui.QPainter.CompositionMode_SourceOver)
+        painter.drawImage(0, 0, dstImage)
+        painter.end()
+        self.setPixmap(QtGui.QPixmap.fromImage(resultImage))
+        
+app =  QtWidgets.QApplication(sys.argv)
+window = QtWidgets.QWidget()
+window.setWindowTitle(u"图片叠加")
+window.setWindowFlags(QtCore.Qt.Window)
+window.resize(500, 400)
+layout = QtWidgets.QHBoxLayout(window)
+# 放入圖片，第一張為底層，第二張是上層圖片
+layout.addWidget(CombineImage(r"GUI/Empty_Health_Bar.png", r"GUI/Solid_Health_Bar.png"))
+window.show()
+sys.exit(app.exec_())
+
+在cmd内输入$ python3 然后输入 import pygame 看看是否下载了pygame 库，如果没有则输入pip install pygame , 待他下载完成后，在电脑里找到pygame 的路径（可以在下载完之后再次在cmd输入pip install pygame，此时会显示文件夹路径。）将其路径复制。
+打开vs code 在菜单栏找到File -->> Preferences -->> Settings -->> User -->> Python -->> Auto Complete:Extra Path (如图所示）
+{
+    "python.autoComplete.extraPaths": [
+        "/Library/Frameworks/Python.framework/Versions/3.9/lib/python3.9/site-packages (2.0.1)" # 1_輸入路徑
+    ]
+}
+"python.autoComplete.addbrackets": true, # 3_最後還是有問題的話，加上這條。
+"python.linting.pylintArgs": [ "----extension-pkg-whitelist=1xml" ] # 2_輸入路徑後有問題加上這條
+如果返回程序编辑页还是报错：找不到pygame.init() 和 pygame.QUIT。则再次返回步骤3所在位置的文件setting.json ， 然后加一条代码
+"python.linting.pylintArgs": [ "----extension-pkg-whitelist=1xml" ]
+保存后返回，报错消失。
+
+
+
+['', '/Library/Frameworks/Python.framework/Versions/3.9/lib/python39.zip',
+'/Library/Frameworks/Python.framework/Versions/3.9/lib/python3.9',
+'/Library/Frameworks/Python.framework/Versions/3.9/lib/python3.9/lib-dynload',
+'/Library/Frameworks/Python.framework/Versions/3.9/lib/python3.9/site-packages']

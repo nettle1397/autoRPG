@@ -1,26 +1,32 @@
 {
   "Hero": [
     {
-      "Unit1": [
+      "Unit0": [
         {
           "Ability": [
             {
-              "name": "XD1"
+              "name": "Hero01"
             },
             {
               "種族": "人類"
             },
             {
-              "con": 10
+              "HP": 10
             },
             {
               "stre": 9
             },
             {
-              "agi": 9
+              "agi": 6
             },
             {
-              "inte": 9
+              "inte": 6
+            },
+            {
+              "wis": 6
+            },
+            {
+              "con": 8
             }
           ]
         },
@@ -30,34 +36,115 @@
               "HP": 10
             },
             {
-              "att": 4
+              "Attack": 4
             },
             {
-              "attR": 1
+              "AttackRemainder": 1
             },
             {
-              "spp": 3
+              "Speed": 2
             },
             {
-              "Bspp": 3.0
+              "BasicSpeed": 2.0
             },
             {
-              "sppR": 0
+              "SpeedRemainder": 0
             },
             {
-              "Fhit": 3
+              "FinalHit": 2
             },
             {
-              "AhitR": 1
+              "AgiHitRemainder": 2
             },
             {
-              "IhitR": 3
+              "InteHitRemainder": 0
             },
             {
-              "dodgeDO": 4
+              "AgiImpairment": 2
             },
             {
-              "dodgeDOR": 1
+              "AgiImpairmentRemainder": 0
+            },
+            {
+              "ConImpairment": 2
+            },
+            {
+              "ConImpairmentRemainder": 2
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Unit1": [
+        {
+          "Ability": [
+            {
+              "name": "Hero02"
+            },
+            {
+              "種族": "人類"
+            },
+            {
+              "HP": 10
+            },
+            {
+              "stre": 6
+            },
+            {
+              "agi": 9
+            },
+            {
+              "inte": 8
+            },
+            {
+              "wis": 6
+            },
+            {
+              "con": 6
+            }
+          ]
+        },
+        {
+          "CombatVal": [
+            {
+              "HP": 10
+            },
+            {
+              "Attack": 3
+            },
+            {
+              "AttackRemainder": 0
+            },
+            {
+              "Speed": 3
+            },
+            {
+              "BasicSpeed": 3.0
+            },
+            {
+              "SpeedRemainder": 0
+            },
+            {
+              "FinalHit": 3
+            },
+            {
+              "AgiHitRemainder": 1
+            },
+            {
+              "InteHitRemainder": 2
+            },
+            {
+              "AgiImpairment": 3
+            },
+            {
+              "AgiImpairmentRemainder": 0
+            },
+            {
+              "ConImpairment": 2
+            },
+            {
+              "ConImpairmentRemainder": 0
             }
           ]
         }
@@ -68,76 +155,13 @@
         {
           "Ability": [
             {
-              "name": "XD2"
+              "name": "Hero01"
             },
             {
               "種族": "人類"
             },
-            {
-              "con": 10
-            },
-            {
-              "stre": 8
-            },
-            {
-              "agi": 8
-            },
-            {
-              "inte": 8
-            }
-          ]
-        },
-        {
-          "CombatVal": [
             {
               "HP": 10
-            },
-            {
-              "att": 4
-            },
-            {
-              "attR": 0
-            },
-            {
-              "spp": 2
-            },
-            {
-              "Bspp": 2.6666666666666665
-            },
-            {
-              "sppR": 2
-            },
-            {
-              "Fhit": 3
-            },
-            {
-              "AhitR": 0
-            },
-            {
-              "IhitR": 2
-            },
-            {
-              "dodgeDO": 4
-            },
-            {
-              "dodgeDOR": 0
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "Unit3": [
-        {
-          "Ability": [
-            {
-              "name": "XD3"
-            },
-            {
-              "種族": "人類"
-            },
-            {
-              "con": 10
             },
             {
               "stre": 7
@@ -147,6 +171,12 @@
             },
             {
               "inte": 7
+            },
+            {
+              "wis": 7
+            },
+            {
+              "con": 7
             }
           ]
         },
@@ -156,34 +186,40 @@
               "HP": 10
             },
             {
-              "att": 3
+              "Attack": 3
             },
             {
-              "attR": 1
+              "AttackRemainder": 1
             },
             {
-              "spp": 2
+              "Speed": 2
             },
             {
-              "Bspp": 2.3333333333333335
+              "BasicSpeed": 2.3
             },
             {
-              "sppR": 1
+              "SpeedRemainder": 1
             },
             {
-              "Fhit": 2
+              "FinalHit": 2
             },
             {
-              "AhitR": 3
+              "AgiHitRemainder": 3
             },
             {
-              "IhitR": 1
+              "InteHitRemainder": 1
             },
             {
-              "dodgeDO": 3
+              "AgiImpairment": 2
             },
             {
-              "dodgeDOR": 1
+              "AgiImpairmentRemainder": 1
+            },
+            {
+              "ConImpairment": 2
+            },
+            {
+              "ConImpairmentRemainder": 1
             }
           ]
         }
@@ -192,7 +228,7 @@
   ],
   "Enemy": [
     {
-      "Unit1": [
+      "Unit0": [
         {
           "name": "哥布林戰士"
         },
@@ -203,24 +239,24 @@
           "HP": 7
         },
         {
-          "att": 2
+          "Attack": 2
         },
         {
-          "spp": 2
+          "Speed": 2
         },
         {
-          "Bspp": 2
+          "BasicSpeed": 2
         },
         {
-          "hit": 2
+          "Hit": 2
         },
         {
-          "dodgeDO": 1
+          "Impairment": 1
         }
       ]
     },
     {
-      "Unit2": [
+      "Unit1": [
         {
           "name": "哥布林弓箭手"
         },
@@ -231,24 +267,24 @@
           "HP": 4
         },
         {
-          "att": 2
+          "Attack": 2
         },
         {
-          "spp": 3
+          "Speed": 3
         },
         {
-          "Bspp": 2
+          "BasicSpeed": 2
         },
         {
-          "hit": 2
+          "Hit": 2
         },
         {
-          "dodgeDO": 3
+          "Impairment": 3
         }
       ]
     },
     {
-      "Unit3": [
+      "Unit2": [
         {
           "name": "哥布林巫師"
         },
@@ -259,19 +295,19 @@
           "HP": 3
         },
         {
-          "att": 4
+          "Attack": 4
         },
         {
-          "spp": 1
+          "Speed": 1
         },
         {
-          "Bspp": 2
+          "BasicSpeed": 2
         },
         {
-          "hit": 1
+          "Hit": 1
         },
         {
-          "dodgeDO": 1
+          "Impairment": 1
         }
       ]
     }

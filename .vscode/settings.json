@@ -1,0 +1,9 @@
+{
+    "python.autoComplete.extraPaths": [
+    
+        "/Library/Frameworks/Python.framework/Versions/3.9/lib/python3.9/site-packages (2.0.1)"
+    ],
+    "python.analysis.extraPaths": [
+        "/Library/Frameworks/Python.framework/Versions/3.9/lib/python3.9/site-packages (2.0.1)"
+    ]
+}
